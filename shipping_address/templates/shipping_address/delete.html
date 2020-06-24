@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block head %}
+	<title>Delete Direction</title>
+{% endblock head %}
+{% block content %}
+	<div class="col">
+		<form method="POST">
+			{% csrf_token %}
+			<div class="h4">
+				Are you sure about delete the direction ?
+			</div>
+			<input type="submit" class='btn btn-danger' value='Delete'>
+		</form>
+	</div>
+{% endblock content %}

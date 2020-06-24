@@ -1,0 +1,41 @@
+[
+{
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+        "title": "Lamp",
+        "description": "Lamp white deko for desktop",
+        "price": "23.56",
+        "slug": "lamp",
+        "image": "products/lamp.jpeg",
+        "created_at": "2020-06-05T19:00:21.546Z",
+        "modified_at": "2020-06-05T19:00:21.546Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 3,
+    "fields": {
+        "title": "Car",
+        "description": "Tesla Car model x",
+        "price": "11112.24",
+        "slug": "car",
+        "image": "products/car.jpg",
+        "created_at": "2020-06-05T19:23:45.325Z",
+        "modified_at": "2020-06-05T19:23:45.325Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 4,
+    "fields": {
+        "title": "Motorcycle",
+        "description": "Motorcycle Yamaha fz-16 with 150cc",
+        "price": "654321.87",
+        "slug": "motorcycle",
+        "image": "products/moto.jpg",
+        "created_at": "2020-06-06T16:57:08.184Z",
+        "modified_at": "2020-06-06T16:57:08.184Z"
+    }
+}
+]

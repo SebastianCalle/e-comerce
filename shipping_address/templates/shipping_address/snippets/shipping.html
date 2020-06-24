@@ -1,0 +1,25 @@
+<div class="card" >
+	<div class="card-body">
+		<h5 class="card-title">{{ shipping.address }}</h5>
+		<div class="card-title">
+			{{ shipping.reference }}
+		</div>
+		<div class="card-title">
+			{{ shipping.postal_code }}
+		</div>
+
+		<div class="mt-2">
+            {% if edit %}
+                <a class="btn btn-info btn-sm" href="{% url 'shipping_address:update' shipping.pk %}">Edit</a>
+                {% if shipping.default %}
+                    <div class="text-info">
+                        Principal Direction
+                    </div>
+                {% else %}
+                    <a class="btn btn-warning btn-sm" href="{% url 'shipping_address:default' shipping.pk %}">Default</a>
+                    <a class="btn btn-danger btn-sm" href="{% url 'shipping_address:delete' shipping.pk %}">Delete</a>
+                {% endif %}
+            {% endif %}
+		</div>
+	</div>
+</div>

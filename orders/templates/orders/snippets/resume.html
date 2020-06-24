@@ -1,0 +1,40 @@
+{% load product_extras %}
+<div class="card">
+	<div class="card-body">
+		<div class="font-wight-bold">
+			Resume of order
+		</div>
+		<div>
+			<table class="table table-borderless table-sm">
+				<thead>
+					<tr>
+						<th scope='col'></th>
+						<th scope='col'></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Products:</td>
+						<td>{{ cart.total | price_format }}</td>
+					</tr>
+					<tr>
+						<td>Send:</td>
+						<td>{{ order.shipping_total | price_format }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div>
+			<hr>
+			<div class="font-wight-bold text-danger">
+				Total (Include Taxes)
+				<div class="d-inline-block">
+					{{ order.total | price_format }}
+				</div>
+			</div>
+		</div>
+        <div class="mt-2">
+            <a href="{% url 'orders:address' %}" class='btn btn-warning'>Confirm</a>
+        </div>
+	</div>
+</div>

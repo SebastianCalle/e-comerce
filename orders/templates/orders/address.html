@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block head %}
+	<title>Address</title>
+{% endblock head %}
+{% block breadcrumb %}
+    {% include 'orders/snippets/breadcrumb.html' %}
+{% endblock breadcrumb %}
+
+{% block content %}
+	<div class="col">
+		{% if shipping_address %}
+			<div class="h3">
+				Recive the order at delivery point
+			</div>
+			<div class="col3">
+				{% include 'shipping_address/snippets/shipping.html' with shipping=shipping_address %}
+			</div>
+		{% else %}
+			<div class="h3">
+				Register your direction of delivery
+			</div>
+			<div>
+				<a href="{% url 'shipping_address:create' %}">New direction</a>
+			</div>
+		{% endif %}
+	</div>
+
+{% endblock content %}

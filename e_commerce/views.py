@@ -1,19 +1,26 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 from .forms import RegisterForm
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
+from users.models import User
+from products.models import Product
 
 
 def index(request):
     """Index page"""
-    return render(request, 'index.html', {})
+    products = Product.objects.all().order_by('-id')
+    context = {
+        'products': products
+    }
+    return render(request, 'index.html', context)
 
 
 def login_view(request):
     """Login page"""
     if request.user.is_authenticated:
-        return redirect('index')
+        return redirect('products:index')
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -23,7 +30,13 @@ def login_view(request):
         if user:
             login(request, user)
             messages.success(request, f'Welcome {user.username}')
-            return redirect('index')
+
+            if request.GET.get('next'):
+                return HttpResponseRedirect(request.GET['next'])
+
+
+
+            return redirect('products:index')
         else:
             messages.error(request, 'User or password incorrect')
 
@@ -40,7 +53,7 @@ def logout_view(request):
 def register_view(request):
     """Register page"""
     if request.user.is_authenticated:
-        return redirect('index')
+        return redirect('products:index')
 
     form = RegisterForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
@@ -51,9 +64,8 @@ def register_view(request):
         user = form.save()
         if user:
             login(request, user)
-            print('creo user')
             messages.success(request, 'User create successfully')
-            return redirect('index')
+            return redirect('products:index')
 
 
     context = {'form': form}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load product_extras %}
+
+{% block head %}
+	<title>Cart</title>
+{% endblock head %}
+
+{% block content %}
+    {% if cart.products.exists %}
+        <div class="col-8">
+            <table class='table'>
+                <thead>
+                    <tr>
+                        <th scope='col'></th>
+                        <th scope='col'></th>
+                        <th scope='col'></th>
+                        <th scope='col'>Amount</th>
+                        <th scope='col'>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cp in cart.products_related %}
+                        {% with product=cp.product %}
+                            <tr>
+                                <th> {{ forloop.counter }}</th>
+                                <th>
+                                    {% if product.image %}
+                                        <img src="{{ product.image.url }}" alt="Image product" width='60' height='60'>
+                                    {% endif %}
+                                </th>
+                                <th>
+                                    <a href="{% url 'products:product' product.slug %}">{{ product.title }}</a>
+                                </th>
+                                <th>
+                                    {{ cp.quantity }}
+                                </th>
+                                <th>
+                                    <span class='font-weight-bold text-danger'>{{ product.price | price_format }}</span>
+                                </th>
+                                <th>
+                                    {% include 'carts/snippets/remove.html' %}
+                                </th>
+                            </tr>
+                        {% endwith %}
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        <div class="col">
+			<h2>Total shopping</h2>
+			<div class="card pt-2 font-weight-bold">
+				<p>Subtotal({{ cart.products.count }}):<span class='text-danger'> {{ cart.subtotal | price_format }}</span></p>
+				<a href="{% url 'orders:order' %}" class='btn btn-sm btn-warning'>Finish shopping</a>
+			</div>
+        </div>
+
+    {% else %}
+        <div class="col">
+            <p class="h3">Cart shopping is empty </p>
+            <a href="{% url 'products:index'%}"> Go to shopping</a>
+        </div>
+    {% endif %}
+{% endblock content %}
