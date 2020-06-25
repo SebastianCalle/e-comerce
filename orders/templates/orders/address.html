@@ -15,13 +15,19 @@
 			</div>
 			<div class="col3">
 				{% include 'shipping_address/snippets/shipping.html' with shipping=shipping_address %}
+                {% if can_choose_address %}
+                    <div class="mt-2">
+                        <a href="{% url 'orders:select_address' %}">Other direction</a>
+                    </div>
+                {% endif %}
 			</div>
 		{% else %}
 			<div class="h3">
 				Register your direction of delivery
 			</div>
 			<div>
-				<a href="{% url 'shipping_address:create' %}">New direction</a>
+                {% url 'orders:address' as next_url %}
+                <a href="{% url 'shipping_address:create' %}?next={{ next_url }}">New direction</a>
 			</div>
 		{% endif %}
 	</div>

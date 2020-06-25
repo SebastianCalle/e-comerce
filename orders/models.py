@@ -48,13 +48,16 @@ class Order(models.Model):
 
         shipping_address = self.user.shipping_address
         if shipping_address:
-            self.shipping_address = shipping_address
-            self.save()
+            self.update_shipping_address(shipping_address)
 
         return shipping_address
 
     def get_total(self):
         return self.cart.total + self.shipping_total
+
+    def update_shipping_address(self, shipping_address):
+        self.shipping_address = shipping_address
+        self.save()
 
 def set_order_id(sender, instance, *args, **kwargs):
     if not instance.order_id:

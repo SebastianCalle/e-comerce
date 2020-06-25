@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+    {% include 'orders/snippets/breadcrumb.html' %}
+{% endblock breadcrumb %}
+{% block content %}
+    <div class="co">
+        <div class="h3">
+            Choose one direction at delivery
+        </div>
+        <div class="mt-2">
+            {% for shipping in shipping_address %}
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ shipping.address }}</h5>
+                        <p class="card-title">{{ shipping.posta_code }}</p>
+                        <a href="{% url 'orders:check_address' shipping.pk %}" class='btn btn-warning'>Select</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
