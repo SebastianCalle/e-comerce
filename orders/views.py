@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from shipping_address.models import ShippingAdress
 
-from carts.utils import get_or_create_cart
-from .utils import get_or_create_order, breadcrumb
+from carts.utils import get_or_create_cart, destroy_cart
+from .utils import get_or_create_order, breadcrumb, destroy_order
 
 from .models import Order
 
@@ -19,6 +20,7 @@ def order(request):
         'breadcrumb': breadcrumb,
     }
     return render(request, 'orders/order.html', context)
+
 
 @login_required(login_url='login')
 def address(request):
@@ -46,6 +48,7 @@ def select_address(request):
     }
     return render(request, 'orders/select_address.html', context)
 
+
 @login_required(login_url='login')
 def check_address(request, pk):
     cart = get_or_create_cart(request)
@@ -59,3 +62,40 @@ def check_address(request, pk):
     order.update_shipping_address(shipping_address)
 
     return redirect('orders:address')
+
+
+@login_required(login_url='login')
+def confirm(request):
+    cart = get_or_create_cart(request)
+    order = get_or_create_order(cart, request)
+
+    shipping_address = order.shipping_address
+    if shipping_address is None:
+        return redirect('orders:address')
+
+    context = {
+        'cart': cart,
+        'breadcrumb': breadcrumb(address=True, confirmation=True),
+        'order': order,
+        'shipping_address': shipping_address,
+    }
+
+    return render(request, 'orders/confirm.html', context)
+
+
+@login_required(login_url='login')
+def cancel(request):
+    cart = get_or_create_cart(request)
+    order = get_or_create_order(cart, request)
+
+    if request.user.id != order.user_id:
+        return redirect('carts:cart')
+
+    order.cancel()
+
+    messages.error(request,'Order canceled')
+    destroy_cart(request)
+    destroy_order(request)
+
+    return redirect('index')
+

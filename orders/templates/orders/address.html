@@ -20,6 +20,7 @@
                         <a href="{% url 'orders:select_address' %}">Other direction</a>
                     </div>
                 {% endif %}
+                <a href="{% url 'orders:confirm' %}" class='btn btn-warning mt-2'>Confirm</a>
 			</div>
 		{% else %}
 			<div class="h3">

@@ -59,6 +59,10 @@ class Order(models.Model):
         self.shipping_address = shipping_address
         self.save()
 
+    def cancel(self):
+        self.status = OrderStatus.CANCELED
+        self.save()
+
 def set_order_id(sender, instance, *args, **kwargs):
     if not instance.order_id:
         instance.order_id = str(uuid.uuid4())
